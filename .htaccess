@@ -1,0 +1,18 @@
+RewriteEngine On
+
+# Permitir acceso directo a archivos estáticos en el directorio "public"
+RewriteCond %{REQUEST_URI} ^/public/
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirige la raíz a index.php dentro del directorio "public"
+RewriteRule ^$ /public/index.php [L]
+
+# Acepta solicitudes de archivos que no sean PHP, como CSS o JS
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+# Redirige todas las demás solicitudes a index.php dentro del directorio "public"
+RewriteRule ^(.*)$ /public/index.php?url=$1 [L,QSA]
